@@ -1,60 +1,106 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateTodo, deleteTodo } from "../../actions/todos.actions";
 
-// class TodoItem extends Component {
-//   // static propTypes = {
-//   //   userId: PropTypes.number.isRequired,
-//   //   id: PropTypes.number.isRequired,
-//   //   title: PropTypes.string.isRequired,
-//   //   completed: PropTypes.bool.isRequired
-//   // };
+const itemStyle = {
+  opacity: 1,
+  transition: ".1s linear"
+};
 
-//   // static defaultProps = {
-//   //   userId: 0,
-//   //   id: 0,
-//   //   title: "Todo 0",
-//   //   completed: false
-//   // };
+class TodoItem extends Component {
+  constructor(props) {
+    super(props);
 
-//   render() {
-//     const { title } = this.props;
+    this.state = {
+      title: props.todo.title,
+      completed: props.todo.completed
+    };
+  }
 
-//     return <li>{title}</li>;
-//   }
-// }
-
-function TodoItem({ todo }) {
-  let itemRef = React.createRef();
-
-  const handleCheckboxClick = () => {
-    if (!todo.completed) {
-      itemRef.current.style.backgroundColor = "#987";
-    } else {
-      itemRef.current.style.backgroundColor = "#fff";
-    }
+  static propTypes = {
+    userId: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired
   };
 
-  return (
-    <li
-      className="list-group-item mb-2 d-flex align-items-center"
-      ref={itemRef}
-    >
-      <div className="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          className="custom-control-input"
-          id={`customCheck${todo.id}`}
-          onClick={handleCheckboxClick}
-        />
-        <label
-          className="custom-control-label"
-          htmlFor={`customCheck${todo.id}`}
-        />
-      </div>
-      <p className="mb-0 pl-2">{todo.title}</p>
-      <button className="btn btn-danger ml-auto">&times;</button>
-    </li>
-  );
+  static defaultProps = {
+    userId: 0,
+    id: 0,
+    title: "Todo 0",
+    completed: false
+  };
+
+  componentDidMount() {
+    const { todo } = this.props;
+    if (todo.completed) {
+      this.itemRef.style.backgroundColor = "#d3d3d3";
+    } else {
+      this.itemRef.style.backgroundColor = "#fff";
+    }
+  }
+
+  componentDidUpdate() {
+    const { todo } = this.props;
+    if (todo.completed) {
+      this.itemRef.style.backgroundColor = "#d3d3d3";
+    } else {
+      this.itemRef.style.backgroundColor = "#fff";
+    }
+  }
+
+  // update title or completed
+  handleChange = async e => {
+    const { todo, updateTodo } = this.props;
+    await this.setState({
+      [e.target.name]:
+        e.target.checked !== null ? e.target.checked : e.target.value
+    });
+    updateTodo({ ...todo, completed: this.state.completed });
+  };
+
+  handleDelete = id => () => {
+    const { deleteTodo } = this.props;
+    deleteTodo(id);
+  };
+
+  render() {
+    const { todo } = this.props;
+
+    return (
+      <li
+        className="list-group-item mb-2 d-flex align-items-center"
+        style={itemStyle}
+        ref={item => (this.itemRef = item)}
+      >
+        <div className="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            className="custom-control-input"
+            name="completed"
+            id={`customCheck${todo.id}`}
+            onChange={this.handleChange}
+            checked={todo.completed}
+          />
+          <label
+            className="custom-control-label"
+            htmlFor={`customCheck${todo.id}`}
+          />
+        </div>
+        <p className="mb-0 pl-2">{todo.title}</p>
+        <button
+          onClick={this.handleDelete(todo.id)}
+          className="btn btn-danger ml-auto"
+        >
+          &times;
+        </button>
+      </li>
+    );
+  }
 }
 
-export default TodoItem;
+export default connect(
+  null,
+  { updateTodo, deleteTodo }
+)(TodoItem);

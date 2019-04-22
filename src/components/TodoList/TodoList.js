@@ -8,8 +8,8 @@ class TodoList extends Component {
   static propTypes = {
     todos: PropTypes.arrayOf(
       PropTypes.shape({
-        userId: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,
+        user_id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired
       })
@@ -26,6 +26,7 @@ class TodoList extends Component {
 
   render() {
     const { todos } = this.props;
+    console.log(todos);
     return (
       <ul className="list-group">
         {todos.map(todo => (
@@ -37,9 +38,19 @@ class TodoList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    todos: state.todos
-  };
+  if (state.todosFilter === "all") {
+    return {
+      todos: state.todos
+    };
+  } else if (state.todosFilter === "active") {
+    return {
+      todos: state.todos.filter(todo => todo.completed === false)
+    };
+  } else {
+    return {
+      todos: state.todos.filter(todo => todo.completed === true)
+    };
+  }
 };
 
 export default connect(
