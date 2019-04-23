@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { fetchTodos } from "../../actions/todos.actions";
 import TodoItem from "../TodoItem/TodoItem";
 
+const emptyStyle = {
+  padding: "50px 0"
+};
+
 class TodoList extends Component {
   static propTypes = {
     todos: PropTypes.arrayOf(
@@ -26,14 +30,21 @@ class TodoList extends Component {
 
   render() {
     const { todos } = this.props;
-    console.log(todos);
-    return (
-      <ul className="list-group">
-        {todos.map(todo => (
-          <TodoItem todo={todo} key={todo.id} />
-        ))}
-      </ul>
-    );
+    if (todos.length !== 0) {
+      return (
+        <ul className="list-group">
+          {todos.map(todo => (
+            <TodoItem todo={todo} key={todo.id} />
+          ))}
+        </ul>
+      );
+    } else {
+      return (
+        <div className="text-center" style={emptyStyle}>
+          沒有事項喔!
+        </div>
+      );
+    }
   }
 }
 

@@ -31,22 +31,29 @@ class TodoInput extends Component {
   render() {
     const { value } = this.state;
     return (
-      <form onSubmit={this.handleSubmit} className="d-flex mb-2">
-        <div className="form-group mb-0 mr-2" style={formGroupStyle}>
-          <input
-            type="text"
-            value={value}
-            onChange={this.handleChange}
-            onKeyUp={this.handleChange}
-            className="form-control"
-            style={inputStyle}
-            placeholder="Enter new todo"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" style={btnGroupStyle}>
-          Submit
-        </button>
-      </form>
+      <>
+        <h1 className="text-center mb-3">Todo List</h1>
+        <form onSubmit={this.handleSubmit} className="d-flex mb-2">
+          <div className="form-group mb-0 mr-2" style={formGroupStyle}>
+            <input
+              type="text"
+              value={value}
+              onChange={this.handleChange}
+              onKeyUp={this.handleChange}
+              className="form-control"
+              style={inputStyle}
+              placeholder="Enter new todo"
+            />
+          </div>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            style={btnGroupStyle}
+          >
+            Submit
+          </button>
+        </form>
+      </>
     );
   }
 }

@@ -13,13 +13,12 @@ export const todos = (state = [], action) => {
     case ADD_TODO:
       return [...state, action.payload];
     case UPDATE_TODO:
-      const newState = state.map(todo =>
+      return state.map(todo =>
         todo.id === action.payload.id ? action.payload : todo
       );
-      return newState;
     case DELETE_TODO:
       // loop through state and for every todo, check if it's equal to the payload
-      return state.filter(todo => action.payload.some(t => t.id !== todo.id));
+      return state.filter(todo => !action.payload.some(t => t.id === todo.id));
     default:
       return state;
   }

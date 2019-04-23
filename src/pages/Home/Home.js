@@ -5,7 +5,7 @@ import TodoInput from "../../components/TodoInput/TodoInput";
 import FilterOptions from "../../components/FilterOptions/FilterOptions";
 import ErrorBoundary from "../../ErrorBoundary";
 
-const todoStyle = { width: "600px", margin: "50px auto" };
+const todoStyle = { width: "600px", margin: "100px auto" };
 
 class Home extends Component {
   static propTypes = {};

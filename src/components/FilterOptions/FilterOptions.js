@@ -51,7 +51,11 @@ function FilterOptions({ todosFilter, changeFilter, deleteCompleted }) {
       </li>
       <li className="nav-item ml-auto">
         {/* eslint-disable-next-line */}
-        <a className="nav-link p-1" onClick={deleteCompleted}>
+        <a
+          className="nav-link p-1"
+          onClick={deleteCompleted}
+          style={{ cursor: "pointer" }}
+        >
           清除
         </a>
       </li>

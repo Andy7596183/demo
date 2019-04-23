@@ -4,8 +4,21 @@ import { connect } from "react-redux";
 import { updateTodo, deleteTodo } from "../../actions/todos.actions";
 
 const itemStyle = {
-  opacity: 1,
-  transition: ".1s linear"
+  opacity: 1
+};
+
+const btnStyle = {
+  width: "30px",
+  height: "30px",
+  lineHeight: 0,
+  marginLeft: "auto",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#cb3365",
+  color: "#fff",
+  border: 0,
+  borderRadius: "2px"
 };
 
 class TodoItem extends Component {
@@ -89,10 +102,7 @@ class TodoItem extends Component {
           />
         </div>
         <p className="mb-0 pl-2">{todo.title}</p>
-        <button
-          onClick={this.handleDelete(todo.id)}
-          className="btn btn-danger ml-auto"
-        >
+        <button onClick={this.handleDelete(todo.id)} style={btnStyle}>
           &times;
         </button>
       </li>
