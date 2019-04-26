@@ -9,7 +9,8 @@ import {
 export const todos = (state = [], action) => {
   switch (action.type) {
     case FETCH_TODOS:
-      return [...state, ...action.payload];
+      // if there are no todos of this user, the object contain in array is null
+      return action.payload[0].id ? [...action.payload] : [];
     case ADD_TODO:
       return [...state, action.payload];
     case UPDATE_TODO:
@@ -27,7 +28,6 @@ export const todos = (state = [], action) => {
 export const todosFilter = (state = "all", action) => {
   switch (action.type) {
     case CHANGE_FILTER:
-      console.log(action.payload);
       return action.payload;
     default:
       return state;

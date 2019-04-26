@@ -1,15 +1,27 @@
 // const express = require("express");
 // const router = express.Router();
 const Router = require("express-promise-router");
+const jwt = require("jsonwebtoken");
 const db = require("../connection");
+const verifyToken = require("../middlewares/authorize");
 
 const router = new Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyToken, async (req, res, next) => {
   try {
-    const { rows } = await db.query("SELECT * FROM todos");
-    console.log(rows);
-    res.json(rows);
+    try {
+      // verify token
+      const { user } = jwt.verify(req.token, "secretkey");
+      const { rows } = await db.query(
+        "SELECT todos.id, todos.user_id, todos.title, todos.completed FROM app_users LEFT JOIN todos ON app_users.id = todos.user_id WHERE app_users.user_name=$1",
+        [user.user_name]
+      );
+      res.json(rows);
+      // res.json({ msg: "verified", authData,  });
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(403);
+    }
   } catch (err) {
     console.error(err);
   }

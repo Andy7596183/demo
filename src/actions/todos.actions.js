@@ -7,7 +7,13 @@ export const CHANGE_FILTER = "CHANGE_FILTER";
 
 // todo crud
 export const fetchTodos = () => async dispatch => {
-  const res = await axios.get("http://localhost:5000/api/todos");
+  const config = {
+    headers: {
+      Authorization: "Bearer " + window.localStorage.getItem("token")
+    }
+  };
+  const res = await axios.get("http://localhost:5000/api/todos", config);
+  console.log(res.data);
   await dispatch({
     type: FETCH_TODOS,
     payload: res.data
@@ -15,7 +21,6 @@ export const fetchTodos = () => async dispatch => {
 };
 
 export const addTodo = todo => async dispatch => {
-  console.log(todo);
   const res = await axios.post(`http://localhost:5000/api/todos`, todo);
   dispatch({
     type: ADD_TODO,
