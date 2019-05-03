@@ -15,7 +15,7 @@ const btnGroupStyle = {
   borderRadius: 0
 };
 
-class TodoInput extends Component {
+export class TodoInput extends Component {
   state = { value: "" };
 
   handleChange = e => {
@@ -24,7 +24,12 @@ class TodoInput extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addTodo({ user_id: 1, title: this.state.value });
+    const { value } = this.state;
+    if (value.trim() === "") {
+      alert("請輸入事項名稱!");
+    } else {
+      this.props.addTodo({ user_id: 1, title: value });
+    }
     this.setState({ value: "" });
   };
 
@@ -32,8 +37,14 @@ class TodoInput extends Component {
     const { value } = this.state;
     return (
       <>
-        <h1 className="text-center mb-3">Todo List</h1>
-        <form onSubmit={this.handleSubmit} className="d-flex mb-2">
+        <h1 className="text-center mb-3" data-test="todoInputHeader">
+          Todo List
+        </h1>
+        <form
+          onSubmit={this.handleSubmit}
+          className="d-flex mb-2"
+          data-test="todoInputForm"
+        >
           <div className="form-group mb-0 mr-2" style={formGroupStyle}>
             <input
               type="text"

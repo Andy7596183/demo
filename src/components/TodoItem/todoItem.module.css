@@ -1,0 +1,18 @@
+.item {
+  opacity: 0;
+  transition: opacity 10s ease;
+}
+
+.itme__btn {
+  width: 30px;
+  height: 30px;
+  line-height: 0;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cb3365;
+  color: #fff;
+  border: 0;
+  border-radius: 2px
+}

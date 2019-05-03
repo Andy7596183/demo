@@ -8,7 +8,7 @@ const emptyStyle = {
   padding: "50px 0"
 };
 
-class TodoList extends Component {
+export class TodoList extends Component {
   static propTypes = {
     todos: PropTypes.arrayOf(
       PropTypes.shape({

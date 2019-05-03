@@ -1,11 +1,14 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+// import { Spring } from "react-spring/renderprops";
 import { updateTodo, deleteTodo } from "../../actions/todos.actions";
+// import styles from "./todoItem.module.css";
 
-const itemStyle = {
-  opacity: 1
-};
+// const itemStyle = {
+//   opacity: 0,
+//   transition: "opacity 10s ease"
+// };
 
 const btnStyle = {
   width: "30px",
@@ -21,13 +24,14 @@ const btnStyle = {
   borderRadius: "2px"
 };
 
-class TodoItem extends Component {
+export class TodoItem extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       title: props.todo.title,
-      completed: props.todo.completed
+      completed: props.todo.completed,
+      show: false
     };
   }
 
@@ -46,21 +50,11 @@ class TodoItem extends Component {
   };
 
   componentDidMount() {
-    const { todo } = this.props;
-    if (todo.completed) {
-      this.itemRef.style.backgroundColor = "#d3d3d3";
-    } else {
-      this.itemRef.style.backgroundColor = "#fff";
-    }
+    this.setState({ show: true });
   }
 
-  componentDidUpdate() {
-    const { todo } = this.props;
-    if (todo.completed) {
-      this.itemRef.style.backgroundColor = "#d3d3d3";
-    } else {
-      this.itemRef.style.backgroundColor = "#fff";
-    }
+  componentWillUnmount() {
+    this.setState({ show: false });
   }
 
   // update title or completed
@@ -84,8 +78,7 @@ class TodoItem extends Component {
     return (
       <li
         className="list-group-item mb-2 d-flex align-items-center"
-        style={itemStyle}
-        ref={item => (this.itemRef = item)}
+        style={{ backgroundColor: todo.completed ? "#d3d3d3" : "#fff" }}
       >
         <div className="custom-control custom-checkbox">
           <input
